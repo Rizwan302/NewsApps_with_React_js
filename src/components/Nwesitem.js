@@ -15,7 +15,7 @@ export default class Nwesitem extends Component {
         <div className="col card-group">
           
           <div className="card h-100">
-            <img src={!img?"https://images.news18.com/ibnlive/uploads/2023/03/befunky-collage-2023-03-07t115206.838.jpg":img} className="card-img-top" height="271px" alt="..."/>
+            <img src={!img?"https://www.ggchamber.org/wp-content/uploads/2013/04/badge-ad.jpg":img} className="card-img-top" height="271px" alt="..."/>
             <div className="card-body">
             <button type="button" class="btn float-start btn-primary position-relative" style={{zIndex:1, top
             :'-85px', width:'100px',backgroundColor:'red',}}>
