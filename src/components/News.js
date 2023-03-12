@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Nwesitem from './Nwesitem';
 import Spinner from './Spinner';
+import InfiniteScroll from "react-infinite-scroll-component";
+
 
 
 export default class News extends Component {
@@ -23,7 +25,8 @@ export default class News extends Component {
     this.state = {
       results : [],
       loding : false,
-      page : 1
+      page : 1,
+      totalResults: 0
 
     }
   }
@@ -36,7 +39,8 @@ export default class News extends Component {
     let pradata = await data.json()
     console.log(pradata)
     this.setState({results: pradata.results,
-    loding: false})
+      totalResults: pradata.totalResults,
+      loding: false})
   }
 
   async componentDidMount(){
@@ -51,51 +55,68 @@ export default class News extends Component {
     this.updata();
   }
 
-  hendelprevesClick = async () =>{
-    // let urls = `https://newsdata.io/api/1/news?apikey=pub_1846450daa37f652e74e192cecd3ce9a56dee&q=pega=${this.state.page - 1}`
-    // this.setState({loding: true})
-    // // &pageSize=${this.props.pageSize}
-    // let data = await fetch(urls);
-    // let pradata = await data.json()
-    // this.setState({
-    //   page : this.state.page - 1,
-    //   results: pradata.results,
-    //   totalResults: 25,
-    //   loding: false
-    // })
-    this.setState({pageSize: this.state.pageSize - 1});
-    this.updata();
+  // hendelprevesClick = async () =>{
+  //   // let urls = `https://newsdata.io/api/1/news?apikey=pub_1846450daa37f652e74e192cecd3ce9a56dee&q=pega=${this.state.page - 1}`
+  //   // this.setState({loding: true})
+  //   // // &pageSize=${this.props.pageSize}
+  //   // let data = await fetch(urls);
+  //   // let pradata = await data.json()
+  //   // this.setState({
+  //   //   page : this.state.page - 1,
+  //   //   results: pradata.results,
+  //   //   totalResults: 25,
+  //   //   loding: false
+  //   // })
+  //   this.setState({pageSize: this.state.pageSize - 1});
+  //   this.updata();
+  // }
 
 
-  }
+  // hendelnextClick = async () =>{
+  //   // if(!(this.state.page + 1> Math.ceil(this.state.totalResults/25))){
+  //   //     let urls = `https://newsdata.io/api/1/news?apikey=pub_1846450daa37f652e74e192cecd3ce9a56dee&q=pega=${this.state.page + 1}`
+  //   //     // &pageSize=${this.props.pageSize}
+  //   //     this.setState({loding: true})
+  //   //     let data = await fetch(urls);
+  //   //     let pradata = await data.json()
+  //   //     this.setState({loding: false})
+  //   //     this.setState({
+  //   //     page : this.state.page + 1,
+  //   //     results: pradata.results
+  //   //     })
+  //   // }   
+  //   console.log('next')
+  //   this.setState({pageSize: this.state.pageSize + 1});
+  //   this.updata();
+  // }
 
-
-  hendelnextClick = async () =>{
-    // if(!(this.state.page + 1> Math.ceil(this.state.totalResults/25))){
-    //     let urls = `https://newsdata.io/api/1/news?apikey=pub_1846450daa37f652e74e192cecd3ce9a56dee&q=pega=${this.state.page + 1}`
-    //     // &pageSize=${this.props.pageSize}
-    //     this.setState({loding: true})
-    //     let data = await fetch(urls);
-    //     let pradata = await data.json()
-    //     this.setState({loding: false})
-    //     this.setState({
-    //     page : this.state.page + 1,
-    //     results: pradata.results
-    //     })
-    // }   
-    console.log('next')
-    this.setState({pageSize: this.state.pageSize + 1});
-    this.updata();
-
-
-  }
+  fetchMoreData = async() => {
+    this.setState({page: this.state.page + 1})
+    console.log(this.state.totalResults)
+    const urls =`https://newsdata.io/api/1/news?apikey=pub_1846450daa37f652e74e192cecd3ce9a56dee&q=page=${this.state.page}&language=${this.props.language}&country=${this.props.country}&language=${this.props.language}&category=${this.props.category}`;
+    // 730ea5a9176348cfa7aaca88d109904d
+    let data = await fetch(urls);
+    let pradata = await data.json()
+    console.log(pradata)
+    this.setState({results: this.state.results.concat(pradata.results),
+      totalResults: pradata.totalResults,
+      loding: false})
+  };
 
   render() {
     return (
         <>
-        {this.state.loding && <Spinner/>}
       <div className='container my-3'>
+        <h1></h1>
+        <InfiniteScroll
+          dataLength={this.state.results.length}
+          next={this.fetchMoreData}
+          hasMore={this.state.results.length !== this.state.totalResults}
+          loader={<Spinner/>}
+        >
+        {/* {this.state.loding && <Spinner/>} */}
 
+        <div className="container">
         <div className="row">
         {!this.state.loding && this.state.results.map((element)=>{
               // console.log(element.lenght)
@@ -106,7 +127,9 @@ export default class News extends Component {
         })} 
         </div>
         </div>
-        <div  className="d-flex justify-content-between container">
+        </InfiniteScroll>
+        </div>
+        {/* <div  className="d-flex justify-content-between container">
         <button disabled={this.state.page<=1} onClick={this.hendelprevesClick} class="">
         <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
             &larr; Preves
@@ -118,7 +141,7 @@ export default class News extends Component {
         Next &rarr;
         </span>
         </button>
-        </div>
+        </div> */}
         </>
     )
   }
