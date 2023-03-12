@@ -94,15 +94,18 @@ export default class News extends Component {
     return (
         <>
         {this.state.loding && <Spinner/>}
-      <div className='row row-cols-1 row-cols-md-3 g-4 container'>
+      <div className='container my-3'>
+
+        <div className="row">
         {!this.state.loding && this.state.results.map((element)=>{
               // console.log(element.lenght)
-              return <div className='card-group' key={element.link}>
+              return <div className='col-md-4' key={element.link}>
               <Nwesitem title={element.title?element.title.slice(0, 40): ""} description={element.description?element.description.slice(0, 60): ""} img={element.image_url} newsurl={element.link} pubDate={element.pubDate} creator={element.creator}/>
           
               </div>
         })} 
-      </div>
+        </div>
+        </div>
         <div  className="d-flex justify-content-between container">
         <button disabled={this.state.page<=1} onClick={this.hendelprevesClick} class="">
         <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
