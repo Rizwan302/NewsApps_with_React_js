@@ -1,9 +1,18 @@
-import React from 'react'
+import React ,{useRef} from 'react'
 import { Link } from "react-router-dom";
+import LoadingBar from 'react-top-loading-bar'
+
 
 export default function Navbar() {
+    const ref = useRef(null)
+
     return (
         <>
+        <div>
+            <LoadingBar color='#f11946' ref={ref} />
+        
+
+        
             <nav className="navbar navbar-expand-lg bg-light">
                 <div className="container-fluid">
                     <Link className="navbar-brand" to="#">Navbar</Link>
@@ -13,37 +22,37 @@ export default function Navbar() {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link className="nav-link " aria-current="page" to="/">Home</Link>
+                                <Link className="nav-link" onClick={()=> ref.current.complete()} aria-current="page" to="/">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/business">business</Link>
+                                <Link className="nav-link" onClick={()=> ref.current.complete()} to="/business">business</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/entertainment">entertainment</Link>
+                                <Link className="nav-link" onClick={()=> ref.current.complete()} to="/entertainment">entertainment</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="environment">environment</Link>
+                                <Link className="nav-link" onClick={()=> ref.current.complete()} to="environment">environment</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/food">food</Link>
+                                <Link className="nav-link" onClick={()=> ref.current.complete()} to="/food">food</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/health">health</Link>
+                                <Link className="nav-link" onClick={()=> ref.current.complete()} to="/health">health</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/science">science</Link>
+                                <Link className="nav-link" onClick={()=> ref.current.complete()} to="/science">science</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/sports">sports</Link>
+                                <Link className="nav-link" onClick={()=> ref.current.complete()} to="/sports">sports</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/technology">technology</Link>
+                                <Link className="nav-link" onClick={()=> ref.current.complete()} to="/technology">technology</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/top">top</Link>
+                                <Link className="nav-link" onClick={()=> ref.current.complete()} to="/top">top</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/world">world</Link>
+                                <Link className="nav-link" onClick={()=> ref.current.complete()} to="/world">world</Link>
                             </li>
                             <li className="nav-item dropdown">
                                 <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -72,7 +81,7 @@ export default function Navbar() {
                     </div>
                 </div>
             </nav>
-
+            </div>
         </>
     )
 }
